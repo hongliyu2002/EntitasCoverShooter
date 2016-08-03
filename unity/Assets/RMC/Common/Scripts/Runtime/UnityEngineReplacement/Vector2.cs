@@ -29,6 +29,12 @@
             this.y = Vector2.zero.y;
         }
 
+        public override string ToString()
+        {
+            return string.Format("[Vector2 ({0},{1}]", x, y);
+        }
+
+
         public static Vector2 zero
         {
             get

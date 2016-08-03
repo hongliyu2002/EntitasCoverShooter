@@ -6,13 +6,14 @@ using RMC.EntitasCoverShooter.Entitas.Controllers.Singleton;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using RMC.Common.Utilities;
+using RMC.Common.Singleton;
 
 namespace RMC.EntitasCoverShooter.Entitas.Controllers
 {
 	/// <summary>
 	/// Bridges the Unity GUI and the Entitas
 	/// </summary>
-	public class CanvasController : MonoBehaviour
+    public class CanvasController : SingletonMonobehavior<CanvasController>
 	{
 		// ------------------ Constants and statics
 
@@ -20,10 +21,12 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers
 
 		// ------------------ Serialized fields and properties
         public Text _scoreText;
-        public Button _restartButton;
-        public Button _pauseButton;
-        public Button _muteButton;
-        public Button _standButton;
+        [SerializeField] private Button _restartButton;
+        [SerializeField] private  Button _pauseButton;
+        [SerializeField] private  Button _muteButton;
+        [SerializeField] private  Button _standButton;
+        public float StandButtonTopY { get { return _standButton.GetComponent<RectTransform>().offsetMax.y; } }
+            
 
 		
 

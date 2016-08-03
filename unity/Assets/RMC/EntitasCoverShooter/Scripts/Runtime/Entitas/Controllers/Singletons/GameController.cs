@@ -312,8 +312,9 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
         {
             //HACK: When the GUI button is down, send a 'button' down event
             _pool.CreateEntity().AddInput (
-                InputComponent.InputType.KeyCodeDown, 
+                InputComponent.InputType.KeyDown, 
                 RMC.Common.UnityEngineReplacement.KeyCode.Space, 
+                RMC.Common.UnityEngineReplacement.Vector2.zero,
                 RMC.Common.UnityEngineReplacement.Vector2.zero);
         }
 
@@ -321,8 +322,9 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
         {
             //HACK: When the GUI button is up, send a 'button' up event
             _pool.CreateEntity().AddInput (
-                InputComponent.InputType.KeyCodeUp, 
+                InputComponent.InputType.KeyUp, 
                 RMC.Common.UnityEngineReplacement.KeyCode.Space, 
+                RMC.Common.UnityEngineReplacement.Vector2.zero,
                 RMC.Common.UnityEngineReplacement.Vector2.zero);
         }
 

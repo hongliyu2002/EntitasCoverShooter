@@ -12,13 +12,14 @@ namespace RMC.Common.Entitas.Components.Input
         {
             Axis,
 
-            KeyCodeDown,
-            KeyCodeDuring,
-            KeyCodeUp,
+            KeyDown,
+            KeyDuring,
+            KeyUp,
 
-            MouseButtonDown,
-            MouseButtonDuring,
-            MouseButtonUp,
+            PointerDown,
+            PointerDuring,
+            PointerUp
+
         }
            
 		// ------------------ Serialized fields and properties
@@ -27,6 +28,7 @@ namespace RMC.Common.Entitas.Components.Input
         //The type dictates which ONE of these will be not-null
         public KeyCode inputKeyCode;
         public Vector2 inputAxis;
+        public Vector2 inputPointerPosition;
 
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Entitas;
 using RMC.Common.Entitas.Components.Input;
 using RMC.Common.UnityEngineReplacement;
+using RMC.EntitasCoverShooter.Entitas.Controllers;
 
 namespace RMC.EntitasCoverShooter.Entitas.Systems
 {
@@ -44,7 +45,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
             {
                 if (inputEntity.input.inputKeyCode == KeyCode.Space)
                 {
-                    if (inputEntity.input.inputType == InputComponent.InputType.KeyCodeDown)
+                    if (inputEntity.input.inputType == InputComponent.InputType.KeyDown)
                     {
 
                         Vector3 position;
@@ -58,7 +59,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                             acceptInputEntity.ReplacePosition(position);
                         }
                     }
-                    else if (inputEntity.input.inputType == InputComponent.InputType.KeyCodeUp)
+                    else if (inputEntity.input.inputType == InputComponent.InputType.KeyUp)
                     {
                         Vector3 position;
                         foreach (var acceptInputEntity in _acceptInputGroup.GetEntities())
@@ -72,25 +73,27 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                         }
                     }
                 }
-                else if (inputEntity.input.inputType == InputComponent.InputType.MouseButtonDown)
+                else if (inputEntity.input.inputType == InputComponent.InputType.PointerDown)
                 {
+                    if (inputEntity.input.inputPointerPosition.y > CanvasController.Instance.StandButtonTopY)
+                    {
+                        //TODO: add a gun model and shoot from the barrel position
+                        Entity playerEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Player, Matcher.Position)).GetSingleEntity() ;
+                        Entity enemyEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Position)).GetSingleEntity();
 
-                    //TODO: add a gun model and shoot from the barrel position
-                    Entity playerEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Player, Matcher.Position)).GetSingleEntity() ;
-                    Entity enemyEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Position)).GetSingleEntity();
-
-                    Vector3 fromPosition = playerEntity.position.position + Vector3.up * 2;
-                    Vector3 toPosition = enemyEntity.position.position + Vector3.up * 2;
-
-
-                    //KEEP
-                    UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
+                        Vector3 fromPosition = playerEntity.position.position + Vector3.up * 2;
+                        Vector3 toPosition = enemyEntity.position.position + Vector3.up * 2;
 
 
-                    _pool.CreateEntity().AddCreateBullet(
-                            fromPosition, 
-                            toPosition, 
-                            GameConstants.BulletSpeed);
+                        //KEEP
+                        UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
+
+
+                        _pool.CreateEntity().AddCreateBullet(
+                                fromPosition, 
+                                toPosition, 
+                                GameConstants.BulletSpeed);
+                    }
                 }
 
                 //  The Entity holding the AcceptInputComponent has been processed, so destroy the related Entity

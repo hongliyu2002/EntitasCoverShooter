@@ -3,6 +3,7 @@ using Entitas;
 using UnityEngine;
 using System.Collections.Generic;
 using RMC.Common.Entitas.Components.Input;
+using RMC.Common.Entitas.Utilities;
 
 
 namespace RMC.Common.Entitas.Controllers.Singleton
@@ -25,7 +26,8 @@ namespace RMC.Common.Entitas.Controllers.Singleton
         private Pool _pool;
         private float _verticalAxis;
         private float _horizontalAxis;
-        private RMC.Common.UnityEngineReplacement.Vector2 zeroVector2 = RMC.Common.UnityEngineReplacement.Vector2.zero;
+        private RMC.Common.UnityEngineReplacement.Vector2 _pointerPosition;
+        private RMC.Common.UnityEngineReplacement.Vector2 _zeroVector2 = RMC.Common.UnityEngineReplacement.Vector2.zero;
         Dictionary<KeyCode, RMC.Common.UnityEngineReplacement.KeyCode> _keyCodeDictionary;
 
         // ------------------ Methods
@@ -67,26 +69,30 @@ namespace RMC.Common.Entitas.Controllers.Singleton
             _horizontalAxis = Input.GetAxis("Horizontal");
             if (_verticalAxis != 0 || _horizontalAxis != 0)
             {
-                _pool.CreateEntity().AddInput(InputComponent.InputType.Axis, RMC.Common.UnityEngineReplacement.KeyCode.None, new RMC.Common.UnityEngineReplacement.Vector2(_horizontalAxis, _verticalAxis));
+                _pool.CreateEntity().AddInput(InputComponent.InputType.Axis, RMC.Common.UnityEngineReplacement.KeyCode.None, new RMC.Common.UnityEngineReplacement.Vector2(_horizontalAxis, _verticalAxis), _zeroVector2);
             }
         }
 
         private void CheckMouse()
         {
 
+
             if (Input.GetMouseButtonDown(0))
             {
-                _pool.CreateEntity().AddInput(InputComponent.InputType.MouseButtonDown, RMC.Common.UnityEngineReplacement.KeyCode.None, zeroVector2 );
+                _pointerPosition = new RMC.Common.UnityEngineReplacement.Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+                _pool.CreateEntity().AddInput(InputComponent.InputType.PointerDown, RMC.Common.UnityEngineReplacement.KeyCode.None, _zeroVector2, _pointerPosition );
 
             }
             else if (Input.GetMouseButton(0))
             {
-                _pool.CreateEntity().AddInput(InputComponent.InputType.MouseButtonDuring, RMC.Common.UnityEngineReplacement.KeyCode.None, zeroVector2);
+                _pointerPosition = new RMC.Common.UnityEngineReplacement.Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+                _pool.CreateEntity().AddInput(InputComponent.InputType.PointerDuring, RMC.Common.UnityEngineReplacement.KeyCode.None, _zeroVector2, _pointerPosition);
 
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                _pool.CreateEntity().AddInput(InputComponent.InputType.MouseButtonUp, RMC.Common.UnityEngineReplacement.KeyCode.None, zeroVector2);
+                _pointerPosition = new RMC.Common.UnityEngineReplacement.Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+                _pool.CreateEntity().AddInput(InputComponent.InputType.PointerUp, RMC.Common.UnityEngineReplacement.KeyCode.None, _zeroVector2, _pointerPosition);
 
             }
 
@@ -99,15 +105,15 @@ namespace RMC.Common.Entitas.Controllers.Singleton
             {
                 if (Input.GetKeyDown(keyValuePair.Key))
                 {
-                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyCodeDown, keyValuePair.Value, zeroVector2);
+                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyDown, keyValuePair.Value, _zeroVector2, _pointerPosition);
                 }
                 else if (Input.GetKey(KeyCode.Space))
                 {
-                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyCodeDuring, keyValuePair.Value, zeroVector2);
+                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyDuring, keyValuePair.Value, _zeroVector2, _pointerPosition);
                 }
                 else if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyCodeUp, keyValuePair.Value, zeroVector2);
+                    _pool.CreateEntity().AddInput (InputComponent.InputType.KeyUp, keyValuePair.Value, _zeroVector2, _pointerPosition);
                 }
             }
 

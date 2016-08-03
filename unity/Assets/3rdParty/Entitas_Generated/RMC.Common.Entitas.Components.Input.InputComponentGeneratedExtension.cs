@@ -12,19 +12,21 @@ namespace Entitas {
 
         public bool hasInput { get { return HasComponent(ComponentIds.Input); } }
 
-        public Entity AddInput(RMC.Common.Entitas.Components.Input.InputComponent.InputType newInputType, RMC.Common.UnityEngineReplacement.KeyCode newInputKeyCode, RMC.Common.UnityEngineReplacement.Vector2 newInputAxis) {
+        public Entity AddInput(RMC.Common.Entitas.Components.Input.InputComponent.InputType newInputType, RMC.Common.UnityEngineReplacement.KeyCode newInputKeyCode, RMC.Common.UnityEngineReplacement.Vector2 newInputAxis, RMC.Common.UnityEngineReplacement.Vector2 newInputPointerPosition) {
             var component = CreateComponent<RMC.Common.Entitas.Components.Input.InputComponent>(ComponentIds.Input);
             component.inputType = newInputType;
             component.inputKeyCode = newInputKeyCode;
             component.inputAxis = newInputAxis;
+            component.inputPointerPosition = newInputPointerPosition;
             return AddComponent(ComponentIds.Input, component);
         }
 
-        public Entity ReplaceInput(RMC.Common.Entitas.Components.Input.InputComponent.InputType newInputType, RMC.Common.UnityEngineReplacement.KeyCode newInputKeyCode, RMC.Common.UnityEngineReplacement.Vector2 newInputAxis) {
+        public Entity ReplaceInput(RMC.Common.Entitas.Components.Input.InputComponent.InputType newInputType, RMC.Common.UnityEngineReplacement.KeyCode newInputKeyCode, RMC.Common.UnityEngineReplacement.Vector2 newInputAxis, RMC.Common.UnityEngineReplacement.Vector2 newInputPointerPosition) {
             var component = CreateComponent<RMC.Common.Entitas.Components.Input.InputComponent>(ComponentIds.Input);
             component.inputType = newInputType;
             component.inputKeyCode = newInputKeyCode;
             component.inputAxis = newInputAxis;
+            component.inputPointerPosition = newInputPointerPosition;
             ReplaceComponent(ComponentIds.Input, component);
             return this;
         }
