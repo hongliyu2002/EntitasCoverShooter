@@ -44,7 +44,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.GameState
             foreach (var entity in entities)
 			{
 				Entity entityBall = _pool.CreateEntity ();
-                entityBall.AddPosition (new RMC.Common.UnityEngineReplacement.Vector3 (0,0,0));
+                entityBall.AddPosition (new RMC.Common.UnityEngineReplacement.Vector3 (0,0,0), false);
 
                 //Friction added in the y only
 

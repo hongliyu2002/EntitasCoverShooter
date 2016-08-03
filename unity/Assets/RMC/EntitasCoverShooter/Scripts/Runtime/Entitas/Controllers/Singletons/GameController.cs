@@ -193,7 +193,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             playerEntity.AddFriction       (RMC.Common.UnityEngineReplacement.Vector3.zero);
             playerEntity.WillAcceptInput   (true);
             playerEntity.AddTick           (0);
-            playerEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,-1,4));
+            playerEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,-1,4), true);
 
             //  Create computer player on the left
             Entity enemyEntity        = _pool.CreateEntity ();
@@ -203,7 +203,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             enemyEntity.AddFriction   (RMC.Common.UnityEngineReplacement.Vector3.zero);
             //enemyEntity.AddAI         (playerEntity, 1, 25f);
             enemyEntity.AddTick       (0);
-            enemyEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,0,-4));
+            enemyEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,0,-4), true);
 
 
 		}

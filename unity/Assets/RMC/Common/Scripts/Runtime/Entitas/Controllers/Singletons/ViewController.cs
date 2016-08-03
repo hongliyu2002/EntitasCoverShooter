@@ -3,6 +3,7 @@ using Entitas;
 using RMC.Common.Singleton;
 using UnityEngine;
 using RMC.Common.Entitas.Utilities;
+using DG.Tweening;
 
 namespace RMC.Common.Entitas.Systems.Render
 {
@@ -67,8 +68,18 @@ namespace RMC.Common.Entitas.Systems.Render
 
         private void ProcessPositionEntity (Entity entity)
         {
-            
-            ((GameObject)entity.view.gameObject).transform.position = UnityEngineReplacementUtility.Convert(entity.position.position);
+
+            if (!entity.position.useTween)
+            {
+                ((GameObject)entity.view.gameObject).transform.position = UnityEngineReplacementUtility.Convert(entity.position.position);
+                    
+            }
+            else
+            {
+                ((GameObject)entity.view.gameObject).transform.DOMove(UnityEngineReplacementUtility.Convert(entity.position.position), 0.3f);
+            }
+
+        
             //Debug.Log("ProcessEntity: " + ((GameObject)entity.view.gameObject).transform.position);
         }
 

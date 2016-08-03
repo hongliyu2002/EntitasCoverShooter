@@ -44,7 +44,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.GameState
             foreach (var entity in entities)
             {
                 Entity bulletEntity = _pool.CreateEntity ();
-                bulletEntity.AddPosition (entity.createBullet.fromPosition);
+                bulletEntity.AddPosition (entity.createBullet.fromPosition, false);
 
                 //
                 Vector3 newVelocity         =   (entity.createBullet.toPosition - entity.createBullet.fromPosition).Normalize() * entity.createBullet.speed;

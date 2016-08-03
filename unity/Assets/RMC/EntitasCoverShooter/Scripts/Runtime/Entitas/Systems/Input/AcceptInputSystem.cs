@@ -2,6 +2,7 @@
 using RMC.Common.Entitas.Components.Input;
 using RMC.Common.UnityEngineReplacement;
 using RMC.EntitasCoverShooter.Entitas.Controllers;
+using DG.Tweening;
 
 namespace RMC.EntitasCoverShooter.Entitas.Systems
 {
@@ -56,7 +57,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                                 0,
                                 acceptInputEntity.position.position.z);
                             
-                            acceptInputEntity.ReplacePosition(position);
+                            acceptInputEntity.ReplacePosition(position, acceptInputEntity.position.useTween);
                         }
                     }
                     else if (inputEntity.input.inputType == InputComponent.InputType.KeyUp)
@@ -69,7 +70,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                                 - 1,
                                 acceptInputEntity.position.position.z);
                             
-                            acceptInputEntity.ReplacePosition(position);
+                            acceptInputEntity.ReplacePosition(position, acceptInputEntity.position.useTween);
                         }
                     }
                 }
@@ -86,7 +87,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
 
 
                         //KEEP
-                        UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
+                        //UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
 
 
                         _pool.CreateEntity().AddCreateBullet(

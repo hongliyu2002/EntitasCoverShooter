@@ -41,7 +41,7 @@ namespace RMC.Common.Entitas.Components.Transform
         public void AddComponentTest ()
         {
             //  Setup
-            _testEnity = Pools.pool.CreateEntity().AddPosition(new Vector3(1, 2, 3));
+            _testEnity = Pools.pool.CreateEntity().AddPosition(new Vector3(1, 2, 3), false);
 
             //  Assert
             Assert.AreEqual(new Vector3(1, 2, 3), _testEnity.position.position, "The entity position will be the same as previously 'added'.");
@@ -51,8 +51,8 @@ namespace RMC.Common.Entitas.Components.Transform
         public void ReplaceComponentTest ()
         {
             //  Setup
-            _testEnity = Pools.pool.CreateEntity().AddPosition(new Vector3(1, 2, 3));
-            _testEnity = Pools.pool.CreateEntity().ReplacePosition(new Vector3(11, 22, 33));
+            _testEnity = Pools.pool.CreateEntity().AddPosition(new Vector3(1, 2, 3), false);
+            _testEnity = Pools.pool.CreateEntity().ReplacePosition(new Vector3(11, 22, 33), _testEnity.position.useTween);
 
             //  Assert
             Assert.AreEqual(new Vector3(11, 22, 33), _testEnity.position.position, "The entity position will be the same as previously 'replaced'.");

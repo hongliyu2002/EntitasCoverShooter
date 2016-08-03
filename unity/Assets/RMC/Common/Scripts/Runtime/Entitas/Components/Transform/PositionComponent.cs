@@ -10,5 +10,6 @@ namespace RMC.Common.Entitas.Components.Transform
 	{
 		// ------------------ Serialized fields and properties
 		public Vector3 position;
+        public bool useTween;
 	}
 }

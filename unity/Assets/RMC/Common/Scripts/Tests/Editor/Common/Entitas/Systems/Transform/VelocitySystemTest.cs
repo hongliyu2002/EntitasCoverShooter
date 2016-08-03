@@ -48,7 +48,7 @@ namespace RMC.Common.Entitas.Components.Transform
             Vector3 position = new Vector3(1, 2, 3);
             Vector3 expectedPosition = position;
             _testEnity = Pools.pool.CreateEntity()
-                    .AddPosition(position)
+                    .AddPosition(position, false)
                     .AddVelocity(velocity);
             
             //Desired. Strong typing when CreateSystem<T> is called. 
