@@ -13,7 +13,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.GameState
 	/// <summary>
 	/// Called at game start and after every goal
 	/// </summary>
-	public class StartNextRoundSystem : IReactiveSystem, ISetPool 
+    public class StartNextRoundSystem : ISetPool, IReactiveSystem
 	{
 		// ------------------ Constants and statics
 
@@ -27,10 +27,10 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.GameState
 		// ------------------ Methods
 
 		// Implement ISetPool to get the pool used when calling
-		// pool.CreateSystem<MoveSystem>();
+		// pool.CreateSystem<FooSystem>();
 		public void SetPool(Pool pool) 
 		{
-			// Get the group of entities that have a Move and Position component
+			// Get the group of entities that have these component(s)
 			_pool = pool;
 		}
 

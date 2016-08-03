@@ -11,7 +11,7 @@ namespace RMC.Common.Entitas.Systems
     /// Constains the balls's y position within the screenbounds with a bounce.
     /// Great example of a system that operates ONLY when a component (position) is changed. Efficient!
     /// </summary>
-    public class BoundsBounceSystem : ISystem, ISetPool
+    public class BoundsBounceSystem : ISetPool, IInitializeSystem, ISystem
     {
         // ------------------ Constants and statics
 
@@ -20,18 +20,24 @@ namespace RMC.Common.Entitas.Systems
         // ------------------ Serialized fields and properties
 
         // ------------------ Non-serialized fields
+        private Pool _pool;
         private Group _group;
         private Entity _gameEntity;
         private Bounds _bounds;
-        private Pool _pool;
+
 
         // ------------------ Methods
 
         // Implement ISetPool to get the pool used when calling
-        // pool.CreateSystem<MoveSystem>();
+        // pool.CreateSystem<FooSystem>();
         public void SetPool(Pool pool) 
         {
             _pool = pool;
+
+        }
+
+        public void Initialize()
+        {
             _group = _pool.GetGroup(Matcher.AllOf(Matcher.BoundsBounce, Matcher.Velocity, Matcher.Position, Matcher.View));
             _group.OnEntityUpdated += Group_OnEntityUpdated;
 

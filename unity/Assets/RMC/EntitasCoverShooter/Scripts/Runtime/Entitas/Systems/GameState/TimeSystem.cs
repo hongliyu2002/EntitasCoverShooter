@@ -8,7 +8,7 @@ namespace RMC.Common.Entitas.Systems.GameState
 	/// The TimeSystem always executes (even when the game is paused)
 	/// It serves as an example of a system that will always execute, yet PARTIALLY respects isPaused
 	/// </summary>
-	public class TimeSystem : IExecuteSystem, ISetPool 
+    public class TimeSystem : ISetPool, IInitializeSystem, IExecuteSystem
 	{
 		// ------------------ Constants and statics
 
@@ -23,15 +23,17 @@ namespace RMC.Common.Entitas.Systems.GameState
 		// ------------------ Methods
 
 		// Implement ISetPool to get the pool used when calling
-		// pool.CreateSystem<MoveSystem>();
+		// pool.CreateSystem<FooSystem>();
 		public void SetPool(Pool pool) 
 		{
 			_pool = pool;
-
-			//By design: Systems created before Entities, so wait :)
-			_pool.GetGroup(Matcher.AllOf(Matcher.Game, Matcher.Time)).OnEntityAdded += OnGameEntityAdded;
-
 		}
+
+        public void Initialize()
+        {
+            //By design: Systems created before Entities, so wait :)
+            _pool.GetGroup(Matcher.AllOf(Matcher.Game, Matcher.Time)).OnEntityAdded += OnGameEntityAdded;
+        }
 
 		private void OnGameEntityAdded (Group group, Entity entity, int index, IComponent component)
 		{

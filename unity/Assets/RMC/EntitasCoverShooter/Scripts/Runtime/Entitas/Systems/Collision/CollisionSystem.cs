@@ -9,7 +9,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
 	/// <summary>
 	/// Replace me with description.
 	/// </summary>
-	public class CollisionSystem : IReactiveSystem, ISetPool
+    public class CollisionSystem : ISetPool, IInitializeSystem, IReactiveSystem
 	{
 		// ------------------ Constants and statics
 
@@ -31,14 +31,20 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
 
 		// ------------------ Methods
 		// Implement ISetPool to get the pool used when calling
-		// pool.CreateSystem<MoveSystem>();
+		// pool.CreateSystem<FooSystem>();
 		public void SetPool(Pool pool) 
 		{
             _pool = pool;
-			// Get the group of entities that have a Move and Position component
-			_group = _pool.GetGroup(Matcher.AllOf(Matcher.Position, Matcher.Velocity));
-
+	
 		}
+
+        public void Initialize ()
+        {
+            // Get the group of entities that have these component(s)
+            _group = _pool.GetGroup(Matcher.AllOf(Matcher.Position, Matcher.Velocity));
+
+        }
+
 		public void Execute(List<Entity> entities) 
 		{
 			foreach (var collisionEntity in entities) 

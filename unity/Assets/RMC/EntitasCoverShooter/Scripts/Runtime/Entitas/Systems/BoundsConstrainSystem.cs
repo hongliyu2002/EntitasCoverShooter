@@ -10,7 +10,7 @@ namespace RMC.Common.Entitas.Systems
     /// Constains the paddle's y position within the screenbounds.
     /// Great example of a system that operates ONLY when a component (position) is changed. Efficient!
     /// </summary>
-    public class BoundsConstrainSystem : ISystem, ISetPool
+    public class BoundsConstrainSystem : ISetPool, IInitializeSystem, ISystem
     {
         // ------------------ Constants and statics
 
@@ -19,6 +19,7 @@ namespace RMC.Common.Entitas.Systems
         // ------------------ Serialized fields and properties
 
         // ------------------ Non-serialized fields
+        private Pool _pool;
         private Group _group;
         private Entity _gameEntity;
         private GroupObserver _onPaddlePositionUpdated;
@@ -26,14 +27,19 @@ namespace RMC.Common.Entitas.Systems
         // ------------------ Methods
 
         // Implement ISetPool to get the pool used when calling
-        // pool.CreateSystem<MoveSystem>();
+        // pool.CreateSystem<FooSystem>();
         public void SetPool(Pool pool) 
         {
-            _group = pool.GetGroup(Matcher.AllOf(Matcher.Paddle, Matcher.Position, Matcher.View));
+            _pool = pool;
+        }
+
+        public void Initialize()
+        {
+            _group = _pool.GetGroup(Matcher.AllOf(Matcher.Paddle, Matcher.Position, Matcher.View));
             _group.OnEntityUpdated += PaddleGroup_OnEntityAdded;
 
             //By design: Systems created before Entities, so wait :)
-            pool.GetGroup(Matcher.AllOf(Matcher.Game, Matcher.Bounds, Matcher.Score)).OnEntityAdded += GameGroup_OnEntityAdded;
+            _pool.GetGroup(Matcher.AllOf(Matcher.Game, Matcher.Bounds, Matcher.Score)).OnEntityAdded += GameGroup_OnEntityAdded;
 
         }
 

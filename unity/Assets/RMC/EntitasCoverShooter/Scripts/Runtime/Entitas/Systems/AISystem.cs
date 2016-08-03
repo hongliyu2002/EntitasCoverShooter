@@ -9,7 +9,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
     /// <summary>
     /// Stores how the computer Paddle responds to the ball
     /// </summary>
-	public class AISystem : IExecuteSystem, ISetPool 
+    public class AISystem : ISetPool, IInitializeSystem, IExecuteSystem 
 	{
 		// ------------------ Constants and statics
 
@@ -18,27 +18,33 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
 		// ------------------ Serialized fields and properties
 
 		// ------------------ Non-serialized fields
+        private Pool _pool;
 		private Group _aiGroup;
 
 
 		// ------------------ Methods
 
 		// Implement ISetPool to get the pool used when calling
-		// pool.CreateSystem<MoveSystem>();
+		// pool.CreateSystem<FooSystem>();
 		public void SetPool(Pool pool) 
 		{
-			// Get the group of entities that have a Move and Position component
-			_aiGroup = pool.GetGroup(Matcher.AllOf(Matcher.AI, Matcher.Position, Matcher.Velocity));
-			
-            Group ballCreatedGroup = pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position).NoneOf (Matcher.Destroy));
-			ballCreatedGroup.OnEntityAdded += BallCreatedGroup_OnEntityAdded;
-
-            Group ballDestroyGroup = pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position, Matcher.Destroy));
-			ballDestroyGroup.OnEntityAdded += BallDestroyGroup_OnEntityAdded;
-			
-	
-
+            _pool = pool;
 		}
+
+        public void Initialize()
+        {
+            // Get the group of entities that have these component(s)
+            _aiGroup = _pool.GetGroup(Matcher.AllOf(Matcher.AI, Matcher.Position, Matcher.Velocity));
+
+            Group ballCreatedGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position).NoneOf (Matcher.Destroy));
+            ballCreatedGroup.OnEntityAdded += BallCreatedGroup_OnEntityAdded;
+
+            Group ballDestroyGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position, Matcher.Destroy));
+            ballDestroyGroup.OnEntityAdded += BallDestroyGroup_OnEntityAdded;
+
+        }
+
+
 
 		//Whenever a new ball is created, follow it
 		protected virtual void BallCreatedGroup_OnEntityAdded(Group collection, Entity ballEntity, int index, IComponent component)

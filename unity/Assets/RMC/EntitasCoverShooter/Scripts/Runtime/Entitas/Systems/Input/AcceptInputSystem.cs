@@ -7,7 +7,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
 	/// <summary>
 	/// Process input
 	/// </summary>
-	public class AcceptInputSystem : IExecuteSystem, ISetPool 
+    public class AcceptInputSystem : ISetPool, IInitializeSystem, IExecuteSystem
 	{
 		// ------------------ Constants and statics
 
@@ -16,20 +16,26 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
 		// ------------------ Serialized fields and properties
 
 		// ------------------ Non-serialized fields
+        private Pool _pool;
 		private Group _inputGroup;
         private Group _acceptInputGroup;
 
 		// ------------------ Methods
 
 		// Implement ISetPool to get the pool used when calling
-		// pool.CreateSystem<MoveSystem>();
+		// pool.CreateSystem<FooSystem>();
 		public void SetPool(Pool pool) 
 		{
-			// Get the group of entities that have a Move and Position component
-            _inputGroup = pool.GetGroup(Matcher.AllOf(Matcher.Input));
-            _acceptInputGroup = pool.GetGroup(Matcher.AllOf(Matcher.AcceptInput));
-
+            _pool = pool;
 		}
+
+        public void Initialize()
+        {
+            // Get the group of entities that have these component(s)
+            _inputGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Input));
+            _acceptInputGroup = _pool.GetGroup(Matcher.AllOf(Matcher.AcceptInput));
+
+        }
 
 		public void Execute() 
 		{
