@@ -32,17 +32,6 @@ namespace RMC.Common.Utilities
 
         }
 
-        public Coroutine StartCoroutineAfterDelay (IEnumerator iEnumerator, float delayInSeconds)
-        {
-            return StartCoroutine(Coroutine_AfterDelay(iEnumerator, delayInSeconds));
-        }
-
-        public IEnumerator Coroutine_AfterDelay (IEnumerator iEnumerator, float delayInSeconds)
-        {
-            yield return new WaitForSeconds(delayInSeconds);
-            StartCoroutine(iEnumerator);
-        }
-
 
     }
 

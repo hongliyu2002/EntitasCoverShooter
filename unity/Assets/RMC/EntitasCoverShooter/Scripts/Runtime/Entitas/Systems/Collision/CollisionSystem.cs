@@ -72,7 +72,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
                     }
 					
 				}
-                collisionEntity.WillDestroy(true);
+                collisionEntity.AddDestroyMe(0);
 	        }
 
 	   }

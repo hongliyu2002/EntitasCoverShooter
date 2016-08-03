@@ -3,6 +3,9 @@ using Entitas;
 using UnityEngine.UI;
 using System;
 using RMC.EntitasCoverShooter.Entitas.Controllers.Singleton;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using RMC.Common.Utilities;
 
 namespace RMC.EntitasCoverShooter.Entitas.Controllers
 {
@@ -20,11 +23,14 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers
         public Button _restartButton;
         public Button _pauseButton;
         public Button _muteButton;
+        public Button _standButton;
+
 		
 
 		// ------------------ Non-serialized fields
         private Entity _gameEntity;
         private Group _gameScore;
+        private EventTrigger _standButtonEventTrigger;
 
 		// ------------------ Methods
 
@@ -39,6 +45,22 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers
             _pauseButton.onClick.AddListener (OnPauseButtonClicked);
             _muteButton.onClick.AddListener (OnMuteButtonClicked);
 
+            _standButtonEventTrigger = _standButton.GetComponent<EventTrigger>();
+            EventSystemUtility.AddEventTrigger(_standButtonEventTrigger, OnStandButtonPointerDown, EventTriggerType.PointerDown);
+            EventSystemUtility.AddEventTrigger(_standButtonEventTrigger, OnStandButtonPointerUp, EventTriggerType.PointerUp);
+
+        }
+
+
+
+        private void OnStandButtonPointerDown()
+        {
+            GameController.Instance.OnStandButtonPointerDown();
+        }
+
+        private void OnStandButtonPointerUp()
+        {
+            GameController.Instance.OnStandButtonPointerUp();
         }
 
 
@@ -47,6 +69,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers
             _restartButton.onClick.RemoveListener (OnRestartButtonClicked);
             _pauseButton.onClick.RemoveListener (OnPauseButtonClicked);
             _muteButton.onClick.RemoveListener (OnMuteButtonClicked);
+            EventSystemUtility.RemoveAllEventTriggers(_standButtonEventTrigger);
 
         }
 

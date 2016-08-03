@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Entitas;
+using RMC.Common.Utilities;
+using System.Collections;
 
 namespace RMC.Common.Entitas.Systems.Destroy
 {
     /// <summary>
     /// Destroy's the Entity
     /// </summary>
-    public class DestroySystem : IReactiveSystem, ISetPool
+    public class DestroySystem : ISetPool, IReactiveSystem 
     {
         private Pool _pool;
 
         public TriggerOnEvent trigger
         {
-            get { return Matcher.Destroy.OnEntityAdded(); }
+            get { return Matcher.DestroyMe.OnEntityAdded(); }
         }
 
         public void SetPool(Pool pool)
@@ -23,13 +25,30 @@ namespace RMC.Common.Entitas.Systems.Destroy
             _pool = pool;
         }
 
+
         public void Execute(List<Entity> entities)
         {
             foreach (var entity in entities)
             {
-                _pool.DestroyEntity(entity);
+                if (entity.destroyMe.delayBeforeDestroy == 0)
+                {
+                    //UnityEngine.Debug.Log("here " + entity);
+                    DestroyEntity(entity);
+                }
+                else
+                {
+                    //Must make a local reference to the entityToDestroy
+                    //Otherwise we lose state and the destroy breaks
+                    Entity entityToDestroy = entity;
+                    Timer.Register(entity.destroyMe.delayBeforeDestroy, () => DestroyEntity(entityToDestroy));
+                }
             }
                
+        }
+
+        private void DestroyEntity (Entity entity)
+        {
+            Pools.pool.DestroyEntity(entity);
         }
 
 

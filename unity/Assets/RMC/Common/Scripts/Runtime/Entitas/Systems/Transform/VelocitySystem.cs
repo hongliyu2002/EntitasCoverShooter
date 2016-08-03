@@ -57,8 +57,12 @@ namespace RMC.Common.Entitas.Systems.Transform
                     (position.y + velocity.y * entity.tick.deltaTime) * (1- entity.friction.friction.y), 
                     (position.z + velocity.z * entity.tick.deltaTime) * (1- entity.friction.friction.z)
                 ));
-
-
+//
+//                UnityEngine.Debug.Log (new RMC.Common.UnityEngineReplacement.Vector3 (
+//                    (position.x + velocity.x * entity.tick.deltaTime) * (1- entity.friction.friction.x), 
+//                    (position.y + velocity.y * entity.tick.deltaTime) * (1- entity.friction.friction.y), 
+//                    (position.z + velocity.z * entity.tick.deltaTime) * (1- entity.friction.friction.z)
+//                ));
             }
         }
 

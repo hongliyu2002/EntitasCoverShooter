@@ -65,8 +65,8 @@ namespace RMC.Common.Entitas.Systems.GameState
 					ChangeScore(entity.goal.pointsPerGoal, 0);
 
                     //  The ball holding the GoalComponent has been processed, so destroy the related Entity
-                    entity.WillDestroy(true);
-                    CoroutineUtility.Instance.StartCoroutineAfterDelay(StartNextRound_Coroutine(), 0.25f);
+                    entity.AddDestroyMe(0);
+                    //CoroutineUtility.Instance.StartCoroutineAfterDelay(StartNextRound_Coroutine(), 0.25f);
                     _pool.CreateEntity().AddPlayAudio(GameConstants.Audio_GoalSuccess, 0.25f);
 				} 
 				else if (entity.position.position.x > bounds.max.x)
@@ -75,8 +75,8 @@ namespace RMC.Common.Entitas.Systems.GameState
 					ChangeScore(0, entity.goal.pointsPerGoal);
 
                     //  The ball holding the GoalComponent has been processed, so destroy the related Entity
-                    entity.WillDestroy(true);
-                    CoroutineUtility.Instance.StartCoroutineAfterDelay(StartNextRound_Coroutine(),0.25f);
+                    entity.AddDestroyMe(0);
+                    //CoroutineUtility.Instance.StartCoroutineAfterDelay(StartNextRound_Coroutine(),0.25f);
                     _pool.CreateEntity().AddPlayAudio(GameConstants.Audio_GoalFailure, 0.5f);
 					
 				}

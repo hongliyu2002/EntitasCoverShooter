@@ -10,43 +10,45 @@ public static class ComponentIds {
     public const int AcceptInput = 0;
     public const int AI = 1;
     public const int AudioSettings = 2;
-    public const int BoundsBounce = 3;
-    public const int Bounds = 4;
-    public const int Collision = 5;
-    public const int Destroy = 6;
-    public const int Entitas = 7;
-    public const int Friction = 8;
-    public const int Game = 9;
-    public const int Goal = 10;
-    public const int Input = 11;
-    public const int Paddle = 12;
+    public const int Bounds = 3;
+    public const int Collision = 4;
+    public const int CreateBullet = 5;
+    public const int DestroyMe = 6;
+    public const int Enemy = 7;
+    public const int Entitas = 8;
+    public const int Friction = 9;
+    public const int Game = 10;
+    public const int Goal = 11;
+    public const int Input = 12;
     public const int PlayAudio = 13;
-    public const int Position = 14;
-    public const int Resource = 15;
-    public const int Score = 16;
-    public const int StartNextRound = 17;
-    public const int Tick = 18;
-    public const int Time = 19;
-    public const int Velocity = 20;
-    public const int View = 21;
+    public const int Player = 14;
+    public const int Position = 15;
+    public const int Resource = 16;
+    public const int Score = 17;
+    public const int StartNextRound = 18;
+    public const int Tick = 19;
+    public const int Time = 20;
+    public const int Velocity = 21;
+    public const int View = 22;
 
-    public const int TotalComponents = 22;
+    public const int TotalComponents = 23;
 
     public static readonly string[] componentNames = {
         "AcceptInput",
         "AI",
         "AudioSettings",
-        "BoundsBounce",
         "Bounds",
         "Collision",
-        "Destroy",
+        "CreateBullet",
+        "DestroyMe",
+        "Enemy",
         "Entitas",
         "Friction",
         "Game",
         "Goal",
         "Input",
-        "Paddle",
         "PlayAudio",
+        "Player",
         "Position",
         "Resource",
         "Score",
@@ -61,17 +63,18 @@ public static class ComponentIds {
         typeof(RMC.Common.Entitas.Components.Input.AcceptInputComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.AIComponent),
         typeof(RMC.Common.Entitas.Components.Audio.AudioSettingsComponent),
-        typeof(RMC.EntitasCoverShooter.Entitas.Components.BoundsBounceComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.BoundsComponent),
         typeof(RMC.Common.Entitas.Components.Collision.CollisionComponent),
-        typeof(RMC.Common.Entitas.Components.Destroy.DestroyComponent),
+        typeof(RMC.EntitasCoverShooter.Entitas.Components.CreateBulletComponent),
+        typeof(RMC.Common.Entitas.Components.Destroy.DestroyMeComponent),
+        typeof(RMC.EntitasCoverShooter.Entitas.Components.EnemyComponent),
         typeof(RMC.Common.Entitas.Components.Entitas.EntitasComponent),
         typeof(RMC.Common.Entitas.Components.Transform.FrictionComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.GameComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.GoalComponent),
         typeof(RMC.Common.Entitas.Components.Input.InputComponent),
-        typeof(RMC.EntitasCoverShooter.Entitas.Components.PaddleComponent),
         typeof(RMC.Common.Entitas.Components.Audio.PlayAudioComponent),
+        typeof(RMC.EntitasCoverShooter.Entitas.Components.PlayerComponent),
         typeof(RMC.Common.Entitas.Components.Transform.PositionComponent),
         typeof(RMC.Common.Entitas.Components.Render.ResourceComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.ScoreComponent),

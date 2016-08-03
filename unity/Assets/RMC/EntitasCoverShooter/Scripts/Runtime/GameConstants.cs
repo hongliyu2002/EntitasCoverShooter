@@ -21,6 +21,9 @@ namespace RMC.EntitasCoverShooter.Entitas
         public static readonly float BallInitialVelocityMaxY = 20;
 
         //
+        public static readonly float BulletSpeed = 10f;
+
+        //
         public const float AudioVolume = 0.5f;//default
         //
         public const string Audio_ButtonClickSuccess = "Audio/SoundEffects/ButtonClickSuccess";

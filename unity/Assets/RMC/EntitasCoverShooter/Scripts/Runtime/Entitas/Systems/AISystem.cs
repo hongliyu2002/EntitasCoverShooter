@@ -36,10 +36,10 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
             // Get the group of entities that have these component(s)
             _aiGroup = _pool.GetGroup(Matcher.AllOf(Matcher.AI, Matcher.Position, Matcher.Velocity));
 
-            Group ballCreatedGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position).NoneOf (Matcher.Destroy));
+            Group ballCreatedGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position).NoneOf (Matcher.DestroyMe));
             ballCreatedGroup.OnEntityAdded += BallCreatedGroup_OnEntityAdded;
 
-            Group ballDestroyGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position, Matcher.Destroy));
+            Group ballDestroyGroup = _pool.GetGroup(Matcher.AllOf(Matcher.Goal, Matcher.Position, Matcher.DestroyMe));
             ballDestroyGroup.OnEntityAdded += BallDestroyGroup_OnEntityAdded;
 
         }

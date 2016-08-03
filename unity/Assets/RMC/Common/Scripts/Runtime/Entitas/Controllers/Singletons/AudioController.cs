@@ -56,7 +56,7 @@ namespace RMC.Common.Entitas.Controllers.Singleton
             }
 
             //  The sound has been processed, so destroy the related Entity
-            entity.WillDestroy(true);
+            entity.AddDestroyMe(0);
         }
 
         private void PlaySound (string audioClipName, float volume)

@@ -42,20 +42,59 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
 			
             foreach (var inputEntity in _inputGroup.GetEntities()) 
             {
-
-                //We choose to listen to axis, not buttons. But either is possible - srivello
-                if (inputEntity.input.inputType == InputComponent.InputType.Axis)
+                if (inputEntity.input.inputKeyCode == KeyCode.Space)
                 {
-                    foreach (var acceptInputEntity in _acceptInputGroup.GetEntities())
+                    if (inputEntity.input.inputType == InputComponent.InputType.KeyCodeDown)
                     {
-                        //Debug.Log ("inputEntity.input.inputAxis.y : " + inputEntity.input.inputAxis.y);
-                        Vector3 nextVelocity = new Vector3(0, inputEntity.input.inputAxis.y * 50, 0);
-                        acceptInputEntity.ReplaceVelocity(nextVelocity);
+
+                        Vector3 position;
+                        foreach (var acceptInputEntity in _acceptInputGroup.GetEntities())
+                        {
+                            position = new Vector3(
+                                acceptInputEntity.position.position.x,
+                                0,
+                                acceptInputEntity.position.position.z);
+                            
+                            acceptInputEntity.ReplacePosition(position);
+                        }
                     }
+                    else if (inputEntity.input.inputType == InputComponent.InputType.KeyCodeUp)
+                    {
+                        Vector3 position;
+                        foreach (var acceptInputEntity in _acceptInputGroup.GetEntities())
+                        {
+                            position = new Vector3(
+                                acceptInputEntity.position.position.x,
+                                - 1,
+                                acceptInputEntity.position.position.z);
+                            
+                            acceptInputEntity.ReplacePosition(position);
+                        }
+                    }
+                }
+                else if (inputEntity.input.inputType == InputComponent.InputType.MouseButtonDown)
+                {
+
+                    //TODO: add a gun model and shoot from the barrel position
+                    Entity playerEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Player, Matcher.Position)).GetSingleEntity() ;
+                    Entity enemyEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Position)).GetSingleEntity();
+
+                    Vector3 fromPosition = playerEntity.position.position + Vector3.up * 2;
+                    Vector3 toPosition = enemyEntity.position.position + Vector3.up * 2;
+
+
+                    //KEEP
+                    UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
+
+
+                    _pool.CreateEntity().AddCreateBullet(
+                            fromPosition, 
+                            toPosition, 
+                            GameConstants.BulletSpeed);
                 }
 
                 //  The Entity holding the AcceptInputComponent has been processed, so destroy the related Entity
-                inputEntity.WillDestroy(true);
+                inputEntity.AddDestroyMe(0);
             }
 
 		}

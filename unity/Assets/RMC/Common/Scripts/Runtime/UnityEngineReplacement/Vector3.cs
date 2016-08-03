@@ -32,6 +32,41 @@
             this.z = Vector3.zero.z;
         }
 
+        public static Vector3 up
+        {
+            get
+            {
+                return new Vector3 (0,1,0);
+            }
+
+        }
+        public static Vector3 down
+        {
+            get
+            {
+                return new Vector3 (0,-1,0);
+            }
+
+        }
+
+        public static Vector3 left
+        {
+            get
+            {
+                return new Vector3 (-1,0,0);
+            }
+
+        }
+
+        public static Vector3 right
+        {
+            get
+            {
+                return new Vector3 (1,0,0);
+            }
+
+        }
+
         public static Vector3 zero
         {
             get
@@ -63,6 +98,12 @@
         public override string ToString()
         {
             return string.Format("[Vector3 ({0},{1},{2}]", x, y, z);
+        }
+
+        public Vector3 Normalize ()
+        {
+            float magnitude = (float)System.Math.Sqrt(x * x + y * y + z * z);
+            return new Vector3(x / magnitude, y / magnitude, z / magnitude);
         }
 
     }

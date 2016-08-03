@@ -51,22 +51,20 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.GameState
                 entityBall.AddFriction      (GameConstants.BallFriction);
 				entityBall.AddResource      ("Prefabs/Ball");
 				entityBall.AddGoal          (1);
-				entityBall.AddBoundsBounce  (-1);
                 entityBall.AddTick          (0);
 
                 //  The Entity holding the StartNextRound has been processed, so destroy the related Entity
-                entity.WillDestroy(true);
-                CoroutineUtility.Instance.StartCoroutineAfterDelay(StartNextRound_Coroutine(entityBall), 0.5f);
+                entity.AddDestroyMe(0);
+                Timer.Register (0.5f, () => StartNextRound_Coroutine(entityBall));
 			}
 		}
 
         /// <summary>
         /// Add a delay AFTER creating the ball visuall and BEFORE moving it. A courtesy to player.
         /// </summary>
-        private IEnumerator StartNextRound_Coroutine (Entity entityBall)
+        private void StartNextRound_Coroutine (Entity entityBall)
         {
              entityBall.AddVelocity (GameConstants.GetBallInitialVelocity());
-            yield return null;
         }
 
     }

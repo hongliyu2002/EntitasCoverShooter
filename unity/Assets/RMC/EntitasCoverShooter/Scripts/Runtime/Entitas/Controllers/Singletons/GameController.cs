@@ -22,6 +22,7 @@ using RMC.EntitasCoverShooter.Entitas.Systems.GameState;
 using RMC.EntitasCoverShooter.Entitas.Systems;
 using RMC.Common.Utilities;
 using RMC.Common.Entitas.Components.Render;
+using RMC.Common.Entitas.Components.Input;
 
 namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
 {
@@ -77,7 +78,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
 			SetupEntities ();
 
 			//place a ball in the middle of the screen w/ velocity
-			_pool.CreateEntity().willStartNextRound = true;
+			//_pool.CreateEntity().willStartNextRound = true;
 
 		}
 
@@ -185,51 +186,29 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             _gameEntity.AddTick(0);
 
             //  Create human player on the right
-            Entity whitePaddleEntity            = _pool.CreateEntity ();
-            whitePaddleEntity.AddPaddle         (PaddleComponent.PaddleType.White);
-            whitePaddleEntity.AddResource       ("Prefabs/PaddleWhite");
-            whitePaddleEntity.AddVelocity       (RMC.Common.UnityEngineReplacement.Vector3.zero);
-            whitePaddleEntity.AddFriction       (RMC.Common.UnityEngineReplacement.Vector3.zero);
-            whitePaddleEntity.WillAcceptInput   (true);
-            whitePaddleEntity.AddTick           (0);
-            whitePaddleEntity.OnComponentAdded += OnWhitePaddleComponentAdded;
+            Entity playerEntity            = _pool.CreateEntity ();
+            playerEntity.IsPlayer(true);
+            playerEntity.AddResource       ("Prefabs/Player"); //this later adds ViewComponent
+            playerEntity.AddVelocity       (RMC.Common.UnityEngineReplacement.Vector3.zero);
+            playerEntity.AddFriction       (RMC.Common.UnityEngineReplacement.Vector3.zero);
+            playerEntity.WillAcceptInput   (true);
+            playerEntity.AddTick           (0);
+            playerEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,-1,4));
 
             //  Create computer player on the left
-            Entity blackPaddleEntity        = _pool.CreateEntity ();
-            blackPaddleEntity.AddPaddle     (PaddleComponent.PaddleType.Black);
-            blackPaddleEntity.AddResource   ("Prefabs/PaddleBlack");
-            blackPaddleEntity.AddVelocity   (RMC.Common.UnityEngineReplacement.Vector3.zero);
-            blackPaddleEntity.AddFriction   (RMC.Common.UnityEngineReplacement.Vector3.zero);
-            blackPaddleEntity.AddAI         (whitePaddleEntity, 1, 25f);
-            blackPaddleEntity.AddTick       (0);
-            blackPaddleEntity.OnComponentAdded += OnBlackPaddleComponentAdded;
+            Entity enemyEntity        = _pool.CreateEntity ();
+            enemyEntity.IsEnemy(true);
+            enemyEntity.AddResource   ("Prefabs/Enemy"); //this later adds ViewComponent
+            enemyEntity.AddVelocity   (RMC.Common.UnityEngineReplacement.Vector3.zero);
+            enemyEntity.AddFriction   (RMC.Common.UnityEngineReplacement.Vector3.zero);
+            //enemyEntity.AddAI         (playerEntity, 1, 25f);
+            enemyEntity.AddTick       (0);
+            enemyEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,0,-4));
 
 
 		}
 
-        /// <summary>
-        /// Position depends on size, which depends on View. Wait for view.
-        /// </summary>
-        private void OnWhitePaddleComponentAdded (Entity entity, int index, IComponent component)
-        {
-            if (component.GetType() == typeof(ViewComponent))
-            {
-                entity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(_screenBounds.max.x - entity.view.bounds.size.x / 2 - PaddleOffsetToEdgeX, 0, 0));
-                entity.OnComponentAdded -= OnWhitePaddleComponentAdded;
-            }
-        }
 
-        /// <summary>
-        /// Position depends on size, which depends on View. Wait for view.
-        /// </summary>
-        private void OnBlackPaddleComponentAdded (Entity entity, int index, IComponent component) 
-        {
-            if (component.GetType() == typeof(ViewComponent))
-            {
-                entity.AddPosition (new RMC.Common.UnityEngineReplacement.Vector3 (_screenBounds.min.x + entity.view.bounds.size.x/2 + PaddleOffsetToEdgeX, 0, 0));
-                entity.OnComponentAdded -= OnBlackPaddleComponentAdded;
-            }
-        }
 
 		private void SetupSystems ()
 		{
@@ -245,10 +224,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
 			_pausableUpdateSystems.Add (_pool.CreateSystem<AISystem> ());
 			_pausableUpdateSystems.Add (_pool.CreateSystem<GoalSystem> ());
 			_pausableUpdateSystems.Add (_pool.CreateSystem<DestroySystem> ());
-
-			//	'Collision' as NOT physics based - as an example
-			_pausableUpdateSystems.Add (_pool.CreateSystem<BoundsBounceSystem> ());
-            _pausableUpdateSystems.Add (_pool.CreateSystem<BoundsConstrainSystem> ());
+            _pausableUpdateSystems.Add (_pool.CreateSystem<CreateBulletSystem> ());
 			_pausableUpdateSystems.Initialize();
 			_pausableUpdateSystems.ActivateReactiveSystems();
 
@@ -332,21 +308,39 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             );
         }
 
+        public void OnStandButtonPointerDown()
+        {
+            //HACK: When the GUI button is down, send a 'button' down event
+            _pool.CreateEntity().AddInput (
+                InputComponent.InputType.KeyCodeDown, 
+                RMC.Common.UnityEngineReplacement.KeyCode.Space, 
+                RMC.Common.UnityEngineReplacement.Vector2.zero);
+        }
+
+        public void OnStandButtonPointerUp()
+        {
+            //HACK: When the GUI button is up, send a 'button' up event
+            _pool.CreateEntity().AddInput (
+                InputComponent.InputType.KeyCodeUp, 
+                RMC.Common.UnityEngineReplacement.KeyCode.Space, 
+                RMC.Common.UnityEngineReplacement.Vector2.zero);
+        }
+
+
 		//ADVICE ON RESTARTING: https://github.com/sschmid/Entitas-CSharp/issues/82
 		public void Restart ()
 		{
             
             SetPause(true);
             _pool.CreateEntity().AddPlayAudio(GameConstants.Audio_ButtonClickSuccess, GameConstants.AudioVolume);
-            CoroutineUtility.Instance.StartCoroutineAfterDelay(Restart_Coroutine(), 0.25f);
+            Timer.Register (0.25f, () => RestartNow());
 			
 		}
 
         //Add small pause so we hear the click sound
-        private IEnumerator Restart_Coroutine ()
+        private void RestartNow ()
         {
             GameController.Destroy();
-            return null;
         }
 
 

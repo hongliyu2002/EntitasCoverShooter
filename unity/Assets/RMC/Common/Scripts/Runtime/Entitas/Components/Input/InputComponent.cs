@@ -11,7 +11,14 @@ namespace RMC.Common.Entitas.Components.Input
         public enum InputType
         {
             Axis,
-            KeyCode
+
+            KeyCodeDown,
+            KeyCodeDuring,
+            KeyCodeUp,
+
+            MouseButtonDown,
+            MouseButtonDuring,
+            MouseButtonUp,
         }
            
 		// ------------------ Serialized fields and properties
