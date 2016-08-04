@@ -60,7 +60,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
                     var enemyEntity = _group.GetEntities().FirstOrDefault(e2 => e2.view.gameObject == collisionEntity.collision.localGameObject);
                     if (enemyEntity != null )
                     {
-                        UnityEngine.Debug.Log (collisionEntity.collision.localGameObject + " with " + collisionEntity.collision.otherGameObject);
+                        //UnityEngine.Debug.Log (collisionEntity.collision.localGameObject + " with " + collisionEntity.collision.otherGameObject);
 
                         //  We know that ALL bullets already have a DestroyMe (X second delay) upon creation
                         //  but check with an 'if' in case we change that later.
@@ -72,6 +72,8 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
                         {
                             bulletEntity.AddDestroyMe(0);
                         }
+
+                        _pool.CreateEffect(bulletEntity.position.position, "Prefabs/Effects/ExplosionEnemy");
 
                         //UnityEngine.Debug.Log("bulletEntity: " + bulletEntity);
                         _pool.CreateEntity().AddPlayAudio(GameConstants.Audio_Collision, GameConstants.AudioVolume);

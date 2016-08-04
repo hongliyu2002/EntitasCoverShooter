@@ -24,6 +24,7 @@ using RMC.Common.Utilities;
 using RMC.Common.Entitas.Components.Render;
 using RMC.Common.Entitas.Components.Input;
 
+
 namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
 {
 	/// <summary>
@@ -134,7 +135,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             Pools.pool.Reset ();
             DestroyPoolObserver();
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
 
 		private void SetupPools ()
@@ -194,6 +195,9 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             playerEntity.WillAcceptInput   (true);
             playerEntity.AddTick           (0);
             playerEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,-1,4), true);
+            playerEntity.AddRotation(new RMC.Common.UnityEngineReplacement.Vector3 (0, -180, 0), false);
+
+                
 
             //  Create computer player on the left
             Entity enemyEntity        = _pool.CreateEntity ();
@@ -201,10 +205,13 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
             enemyEntity.AddResource   ("Prefabs/Enemy"); //this later adds ViewComponent
             enemyEntity.AddVelocity   (RMC.Common.UnityEngineReplacement.Vector3.zero);
             enemyEntity.AddFriction   (RMC.Common.UnityEngineReplacement.Vector3.zero);
-            //enemyEntity.AddAI         (playerEntity, 1, 25f);
+            enemyEntity.AddAI         ();
             enemyEntity.AddTick       (0);
             enemyEntity.AddPosition(new RMC.Common.UnityEngineReplacement.Vector3(0,0,-4), true);
+            enemyEntity.AddRotation(RMC.Common.UnityEngineReplacement.Vector3.zero, false);
 
+            //  Force an execute to update the view instantly so we don't see it AFTER the scene renders first
+            ViewController.Instance.Execute();
 
 		}
 
@@ -224,7 +231,6 @@ namespace RMC.EntitasCoverShooter.Entitas.Controllers.Singleton
 			_pausableUpdateSystems.Add (_pool.CreateSystem<AISystem> ());
 			_pausableUpdateSystems.Add (_pool.CreateSystem<GoalSystem> ());
 			_pausableUpdateSystems.Add (_pool.CreateSystem<DestroySystem> ());
-            _pausableUpdateSystems.Add (_pool.CreateSystem<CreateBulletSystem> ());
 			_pausableUpdateSystems.Initialize();
 			_pausableUpdateSystems.ActivateReactiveSystems();
 

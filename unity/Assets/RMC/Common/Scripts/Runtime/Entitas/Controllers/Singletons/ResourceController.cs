@@ -69,8 +69,10 @@ namespace RMC.Common.Entitas.Systems.Render
             try {
                 gameObject = UnityEngine.Object.Instantiate(resource);
 
-            } catch (Exception) {
-                Debug.Log("Cannot instantiate " + resource);
+            } 
+            catch (Exception) 
+            {
+                Debug.LogWarning("ResourceController Failed. resourcePath:  " + entity.resource.resourcePath);
             }
 
             if (gameObject != null) 

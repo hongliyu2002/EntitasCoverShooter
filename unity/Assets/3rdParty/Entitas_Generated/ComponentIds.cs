@@ -24,14 +24,15 @@ public static class ComponentIds {
     public const int Player = 14;
     public const int Position = 15;
     public const int Resource = 16;
-    public const int Score = 17;
-    public const int StartNextRound = 18;
-    public const int Tick = 19;
-    public const int Time = 20;
-    public const int Velocity = 21;
-    public const int View = 22;
+    public const int Rotation = 17;
+    public const int Score = 18;
+    public const int StartNextRound = 19;
+    public const int Tick = 20;
+    public const int Time = 21;
+    public const int Velocity = 22;
+    public const int View = 23;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 24;
 
     public static readonly string[] componentNames = {
         "AcceptInput",
@@ -51,6 +52,7 @@ public static class ComponentIds {
         "Player",
         "Position",
         "Resource",
+        "Rotation",
         "Score",
         "StartNextRound",
         "Tick",
@@ -65,7 +67,6 @@ public static class ComponentIds {
         typeof(RMC.Common.Entitas.Components.Audio.AudioSettingsComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.BoundsComponent),
         typeof(RMC.Common.Entitas.Components.Collision.CollisionComponent),
-        typeof(RMC.EntitasCoverShooter.Entitas.Components.CreateBulletComponent),
         typeof(RMC.Common.Entitas.Components.Destroy.DestroyMeComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.EnemyComponent),
         typeof(RMC.Common.Entitas.Components.Entitas.EntitasComponent),
@@ -77,6 +78,7 @@ public static class ComponentIds {
         typeof(RMC.EntitasCoverShooter.Entitas.Components.PlayerComponent),
         typeof(RMC.Common.Entitas.Components.Transform.PositionComponent),
         typeof(RMC.Common.Entitas.Components.Render.ResourceComponent),
+        typeof(RMC.Common.Entitas.Components.Transform.Rotation),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.ScoreComponent),
         typeof(RMC.EntitasCoverShooter.Entitas.Components.GameState.StartNextRoundComponent),
         typeof(RMC.Common.Entitas.Components.Tick.TickComponent),

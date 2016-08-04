@@ -22,6 +22,7 @@ namespace RMC.EntitasCoverShooter.Entitas
 
         //
         public static readonly float BulletSpeed = 10f;
+        public static readonly Vector3 PositionOffsetBulletY = new Vector3(0, 2, 0);
 
         //
         public const float AudioVolume = 0.5f;//default

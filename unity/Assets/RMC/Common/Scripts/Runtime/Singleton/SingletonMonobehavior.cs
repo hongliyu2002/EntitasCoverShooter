@@ -150,7 +150,14 @@ namespace RMC.Common.Singleton
 				}
 				
 				go.name 		= _Instance.GetType().Name;
+
+                //Move to root of hierarchy temporarily for the DontDestroyOnLoad call
+                //This prevents a runtime warning - srivello
+                //TODO: **BUT** does it still properly execute the DontDestroyOnLoad call?
+                Transform parent = go.transform.parent;
+                go.transform.SetParent(null);
 				DontDestroyOnLoad (go);
+                go.transform.SetParent(parent);
 
 				if (OnInstantiateCompleted != null)
 				{

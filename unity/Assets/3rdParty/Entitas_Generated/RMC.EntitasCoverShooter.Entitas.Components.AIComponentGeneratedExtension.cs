@@ -12,19 +12,13 @@ namespace Entitas {
 
         public bool hasAI { get { return HasComponent(ComponentIds.AI); } }
 
-        public Entity AddAI(Entitas.Entity newTargetEntity, float newDeadZoneY, float newVelocityY) {
+        public Entity AddAI() {
             var component = CreateComponent<RMC.EntitasCoverShooter.Entitas.Components.AIComponent>(ComponentIds.AI);
-            component.targetEntity = newTargetEntity;
-            component.deadZoneY = newDeadZoneY;
-            component.velocityY = newVelocityY;
             return AddComponent(ComponentIds.AI, component);
         }
 
-        public Entity ReplaceAI(Entitas.Entity newTargetEntity, float newDeadZoneY, float newVelocityY) {
+        public Entity ReplaceAI() {
             var component = CreateComponent<RMC.EntitasCoverShooter.Entitas.Components.AIComponent>(ComponentIds.AI);
-            component.targetEntity = newTargetEntity;
-            component.deadZoneY = newDeadZoneY;
-            component.velocityY = newVelocityY;
             ReplaceComponent(ComponentIds.AI, component);
             return this;
         }

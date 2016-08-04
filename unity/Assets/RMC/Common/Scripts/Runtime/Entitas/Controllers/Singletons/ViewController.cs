@@ -28,6 +28,7 @@ namespace RMC.Common.Entitas.Systems.Render
         }
 
         // ------------------ Non-serialized fields
+        private bool _initialized = false;
         private Group _positionGroup;
         private UnityEngine.Transform _viewsParent;
 
@@ -35,16 +36,29 @@ namespace RMC.Common.Entitas.Systems.Render
 
         protected void Start()
         {
-            _viewsParent = new GameObject("Views").transform;
-            _viewsParent.parent = transform;
+            Execute();
+
+        }
+
+        private void Initialize()
+        {
+            if (!_initialized)
+            {
+                _initialized = true;
+                _viewsParent = new GameObject("Views").transform;
+                _viewsParent.parent = transform;
 
 
-            _positionGroup = Pools.pool.GetGroup(Matcher.AllOf(Matcher.View, Matcher.Position));
-            _positionGroup.OnEntityAdded += PositionGroup_OnEntityAdded;
+                _positionGroup = Pools.pool.GetGroup(Matcher.AllOf(Matcher.View, Matcher.Position, Matcher.Rotation));
+                _positionGroup.OnEntityAdded += PositionGroup_OnEntityAdded;
+            }
+        }
 
+        public void Execute ()
+        {
+            Initialize();
             // Start() may be called AFTER Entities exist. So process latent Entities now.
             ProcessPositionEntities(_positionGroup.GetEntities());
-
         }
 
         override protected void OnDestroy()
@@ -79,6 +93,15 @@ namespace RMC.Common.Entitas.Systems.Render
                 ((GameObject)entity.view.gameObject).transform.DOMove(UnityEngineReplacementUtility.Convert(entity.position.position), 0.3f);
             }
 
+            if (!entity.position.useTween)
+            {
+                ((GameObject)entity.view.gameObject).transform.rotation = Quaternion.Euler(UnityEngineReplacementUtility.Convert(entity.rotation.rotation));
+
+            }
+            else
+            {
+                ((GameObject)entity.view.gameObject).transform.DORotate(UnityEngineReplacementUtility.Convert(entity.rotation.rotation), 0.3f);
+            }
         
             //Debug.Log("ProcessEntity: " + ((GameObject)entity.view.gameObject).transform.position);
         }

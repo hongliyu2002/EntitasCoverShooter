@@ -83,8 +83,8 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                         Entity playerEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Player, Matcher.Position)).GetSingleEntity() ;
                         Entity enemyEntity = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Position)).GetSingleEntity();
 
-                        Vector3 fromPosition = playerEntity.position.position + Vector3.up * 2;
-                        Vector3 toPosition = enemyEntity.position.position + Vector3.up * 2;
+                        Vector3 fromPosition = playerEntity.position.position + GameConstants.PositionOffsetBulletY;
+                        Vector3 toPosition = enemyEntity.position.position + GameConstants.PositionOffsetBulletY;
 
                         UnityEngine.Vector3 v3 = UnityEngine.Camera.main.ScreenToWorldPoint(new UnityEngine.Vector3(
                                                          inputEntity.input.inputPointerPosition.x,
@@ -96,7 +96,7 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                         //UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
 
 
-                        _pool.CreateEntity().AddCreateBullet(
+                        _pool.CreatePlayerBullet (
                                 fromPosition, 
                                 toPosition, 
                                 GameConstants.BulletSpeed);

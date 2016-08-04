@@ -8,9 +8,5 @@ namespace RMC.EntitasCoverShooter.Entitas.Components
 	public class AIComponent : IComponent
 	{
 		// ------------------ Serialized fields and properties
-		public Entity targetEntity;
-		public float deadZoneY = 1;
-		public float velocityY = 0.5f;
-
 	}
 }
