@@ -27,17 +27,17 @@ namespace RMC.Common.Entitas.Controllers.Collision
         protected void OnTriggerEnter(Collider collider)
         {
 			//Debug.Log ("OnTriggerEnter() collider: " + collider);
-			//_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerEnter);
+			_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerEnter);
         }
 
 		protected void OnTriggerStay(Collider collider)
         {
-			//_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerStay);
+			_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerStay);
         }
 
 		protected void OnTriggerExit(Collider collider)
         {
-			//_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerExit);
+			_pool.CreateEntity().AddCollision (gameObject, collider.gameObject, CollisionComponent.CollisionType.TriggerExit);
         }
 	}
 }

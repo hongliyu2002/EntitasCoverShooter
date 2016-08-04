@@ -46,9 +46,19 @@ namespace RMC.Common.Entitas.Systems.Destroy
                
         }
 
+        //Its possible that we create a bullet and say 'destroy yourself in 4 seconds' and then the bullet collides and we say destroy yourself now,
+        //then the 4 seconds expires and it tries to delete itself again.
+        //So this 'if' solves that - srivello
         private void DestroyEntity (Entity entity)
         {
-            Pools.pool.DestroyEntity(entity);
+            if (_pool.HasEntity(entity))
+            {
+                _pool.DestroyEntity(entity);
+            }
+            else
+            {
+                entity.destroy();
+            }
         }
 
 

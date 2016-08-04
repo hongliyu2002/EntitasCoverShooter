@@ -5854,7 +5854,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013616770438}
-  - 64: {fileID: 64000011477584382}
   m_Layer: 0
   m_Name: env_robotLab_static
   m_TagString: Untagged
@@ -11380,7 +11379,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013547803470}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27830,18 +27829,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011079169264}
   m_Mesh: {fileID: 4300890, guid: 2406a7cda1fb8ec42bc7b4593a564dc7, type: 3}
---- !u!64 &64000011477584382
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013310778844}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 4300002, guid: e2bbc538a9f3e2447ae72e9087d22e7a, type: 3}
 --- !u!108 &108000010085250152
 Light:
   m_ObjectHideFlags: 1

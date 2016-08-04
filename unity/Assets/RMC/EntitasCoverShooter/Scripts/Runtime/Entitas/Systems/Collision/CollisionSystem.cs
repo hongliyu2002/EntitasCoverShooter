@@ -50,24 +50,30 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems.Collision
 			foreach (var collisionEntity in entities) 
 			{
                 //The collision may happen on the same frame as the ball is removed after a goal
-                var entity = _group.GetEntities().FirstOrDefault(e2 => e2.view.gameObject == collisionEntity.collision.localGameObject);
+                var bulletEntity = _group.GetEntities().FirstOrDefault(e2 => e2.view.gameObject == collisionEntity.collision.localGameObject);
 
-                if (collisionEntity.collision.collisionType == CollisionComponent.CollisionType.TriggerEnter && entity != null)
+                if (collisionEntity.collision.collisionType == CollisionComponent.CollisionType.TriggerEnter && 
+                    bulletEntity != null)
 				{
 					//Find entities from the unity data
 					
-					var paddleEntity = _group.GetEntities().FirstOrDefault(e2 => e2.view.gameObject == collisionEntity.collision.localGameObject);
-                    if (paddleEntity != null)
+                    var enemyEntity = _group.GetEntities().FirstOrDefault(e2 => e2.view.gameObject == collisionEntity.collision.localGameObject);
+                    if (enemyEntity != null )
                     {
-                        //Debug.Log (collisionEntity.collision.collider.gameObject);
-					
-                        //Move the ball and include some of the paddle's y velocity to 'steer' the ball
-                        Vector3 nextVelocity = entity.velocity.velocity;
-                        Vector3 paddleVelocity = paddleEntity.velocity.velocity;
-                        entity.ReplaceVelocity 
-                        (
-                            new Vector3(nextVelocity.x * GameConstants.PaddleBounceAmountX, nextVelocity.y + paddleVelocity.y * GameConstants.PaddleFrictionY, nextVelocity.z)
-                        );
+                        UnityEngine.Debug.Log (collisionEntity.collision.localGameObject + " with " + collisionEntity.collision.otherGameObject);
+
+                        //  We know that ALL bullets already have a DestroyMe (X second delay) upon creation
+                        //  but check with an 'if' in case we change that later.
+                        if (bulletEntity.hasDestroyMe)
+                        {
+                            bulletEntity.ReplaceDestroyMe(0);
+                        }
+                        else
+                        {
+                            bulletEntity.AddDestroyMe(0);
+                        }
+
+                        //UnityEngine.Debug.Log("bulletEntity: " + bulletEntity);
                         _pool.CreateEntity().AddPlayAudio(GameConstants.Audio_Collision, GameConstants.AudioVolume);
                     }
 					

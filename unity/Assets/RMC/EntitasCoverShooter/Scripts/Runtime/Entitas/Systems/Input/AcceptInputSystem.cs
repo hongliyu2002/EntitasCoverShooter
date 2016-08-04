@@ -3,6 +3,7 @@ using RMC.Common.Entitas.Components.Input;
 using RMC.Common.UnityEngineReplacement;
 using RMC.EntitasCoverShooter.Entitas.Controllers;
 using DG.Tweening;
+using RMC.Common.Entitas.Utilities;
 
 namespace RMC.EntitasCoverShooter.Entitas.Systems
 {
@@ -85,6 +86,11 @@ namespace RMC.EntitasCoverShooter.Entitas.Systems
                         Vector3 fromPosition = playerEntity.position.position + Vector3.up * 2;
                         Vector3 toPosition = enemyEntity.position.position + Vector3.up * 2;
 
+                        UnityEngine.Vector3 v3 = UnityEngine.Camera.main.ScreenToWorldPoint(new UnityEngine.Vector3(
+                                                         inputEntity.input.inputPointerPosition.x,
+                                                         inputEntity.input.inputPointerPosition.y,
+                                                         10));
+                        toPosition = UnityEngineReplacementUtility.Convert(v3);
 
                         //KEEP
                         //UnityEngine.Debug.Log ("Shoot from : " + fromPosition  + " + to " + toPosition);
